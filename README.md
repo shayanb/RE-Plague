@@ -24,6 +24,7 @@ lat = '0.0000'
 ```
 ------------
 __Note__: While doing this my account needed to be verified and I've been receiving multiple verification emails but haven't yet been verified. so watch out for trolling :)
+__UPDATE__: My user got banned API_BANNED
 
 ![alt text](https://github.com/shayanb/RE-Plague/raw/master/img/verification_needed.jpg "verification")
 
