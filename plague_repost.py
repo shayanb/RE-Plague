@@ -1,10 +1,10 @@
 import requests
 import json
-
+import time
 
 
 token = 'TOKEN'
-u_id = 'UID'
+u_id = 'USERID'
 lon = '90.0000'
 lat = '0.0000'
 
@@ -49,22 +49,6 @@ def vote_skip(post_id):
     print str(post_id)+ " " + r.text
 
 
-
-def vote_all():
-    '''
-    Vote all up! plague is contagious
-    '''
-    url = "http://plague.io/api/votes/repost/"
-    for i in xrange (1000,999999999):
-        payload = { 'latitude':lat,
-                    'longitude':lon,
-                    'repost_id':str(i),
-                    'token':token,
-                    'uid':u_id}
-        r = requests.post(url, data=payload, headers=headers)
-        print str(i)+ " " + r.text
-
-
 def send_text(text):
     url = "http://plague.io/api/posts/"
     send_text_payload = {
@@ -88,8 +72,7 @@ def comment(post_id, text):
                         'token':token,
                         'uid':u_id}
     r = requests.post(url, data=comment_payload, headers=headers)
-    print str(post_id) + text + " - " + r.text
-
+    print str(post_id) + " - "+ text + " - " + r.text
 
 
 def photo_post(file,text):
@@ -112,8 +95,7 @@ def photo_post(file,text):
                         'uid':u_id,
                         'file':upfile}
     r = requests.post(url, data=upload_payload, headers=headers_upload)
-    print text + " - " + str(r.json())
-
+    print text + " - " + r.text
 
 
 
@@ -133,12 +115,19 @@ def post_link(media_link, media_link_preview, text):
 
 
 
+def post_delete(post_id):
+    '''
+    Deletes the post with post_id = post_id
+    '''
+    url = "http://plague.io/api/posts/" + str(post_id) + "/?token=" + token + "&uid=" + u_id
+    r = requests.delete(url, headers=headers)
+    print "deleted " + str(post_id) + " - " + r.text
 
 #comment(89957,"Coooool")
 #send_text('Hi From Northpole!')
 #post_link("http://funnypictures.me/wp-content/uploads/2012/12/funny-pictures-new-record-lab-plague.jpg","http://funnypictures.me/wp-content/uploads/2012/12/funny-pictures-new-record-lab-plague.jpg","Plague... Eh?")
-post_link("http://google.com","http://google.com","http://google.com")
-
+#post_link("http://google.com","http://google.com","http://google.com")
+#post_delete("82871")
 
 
 #photo_post("./plague.jpg","I told you, Plague is contagious!")
