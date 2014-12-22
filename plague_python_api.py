@@ -1,11 +1,16 @@
+# Plague (plague.io) Python API
+# Shayan 2014
+
 import requests
 import json
 import time
 from optparse import OptionParser
 
 
+# You can hard code these here
 token = 'TOKEN'
 u_id = 'USERID'
+# change the longiture and latitude to your choosing
 lon = '90.0000'
 lat = '0.0000'
 
@@ -15,10 +20,9 @@ headers = { 'Host':'plague.io',
             'Connection':'keep-alive',
             'Proxy-Connection':'keep-alive',
             'Accept':'application/json',
-            'User-Agent':'Plague/1.1.25 (iPhone; iOS 8.1; Scale/2.00)',
+            'User-Agent':'Plague/1.1.25 (iPhone; iOS 8.3; Scale/2.00)',
             'Accept-Language':'en',
             'Accept-Encoding':'gzip, deflate'}
-
 
 
 
@@ -211,6 +215,9 @@ if __name__ == "__main__":
     parser.add_option("-T", "--token",
                         dest="token",
                         help="Plague Token")
+    parser.add_option("-c", "--comment",
+                        dest="comment",
+                        help="comment on post_id")
 
 (options, args) = parser.parse_args()
 
@@ -227,3 +234,8 @@ if options.token:
 
 if options.text:
     send_text(options.text)
+if options.postid:
+    if options.comment:
+        comment(options.postid, options.comment)
+    elif:
+        vote_repost(options.postid)
