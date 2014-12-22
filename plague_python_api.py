@@ -237,5 +237,5 @@ if options.text:
 if options.postid:
     if options.comment:
         comment(options.postid, options.comment)
-    elif:
+    else:
         vote_repost(options.postid)
