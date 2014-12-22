@@ -1,8 +1,15 @@
-#[Plague] Reverse Engineering 
-##a.k.a Plague Python API
+#[Plague] Social Platform Python API
 
+>All Plague users are connected to each other right from the start.
+Infection starts at the source of the information…
+and spreads to the nearest users like a virus.
+Infected users spread the information further by infecting the users closest to them.
+Plague allows you to incubate information epidemics of any size.
+The possibilities are endless. 
+ -plague.io
 
 Available Functions:
+* login(user,password)
 * vote_repost(post_id)
 * vote_skip(post_id)
 * send_text(text)
@@ -11,9 +18,20 @@ Available Functions:
 * post_link(media_link, media_link_preview, text)
 * post_delete(post_id)
 
-fill in the UID and Token and it's good to go.
-to find these out just use any proxy to get the url Plague is calling, it would be something like this: 
-> http://plague.io/api/posts/105725/?token=TOKEN&uid=UID
+to get UserId and Token run this:
+> python ./plague_python_api.py -e 'name@mailinator.com' -p 'PAs$w0R1)'
+
+to post a text plague:
+> python ./plague_python_api.py -u UserId -T Token -t 'Text goes here'
+
+to Spread (Vote up) a plague:
+> python ./plague_python_api.py -u UserId -T Token -p Post_Id
+
+to comment on a plague:
+> python ./plague_python_api.py -u UserId -T Token -p Post_Id -c 'Comment Text'
+
+for more options:
+> python ./plague_python_api.py -h
 
 Also you can change the longitude and latitude to any of your choosing.
 ```
@@ -23,12 +41,11 @@ lon = '90.0000'
 lat = '0.0000'
 ```
 ------------
-__Note__: While doing this my account needed to be verified and I've been receiving multiple verification emails but haven't yet been verified. so watch out for trolling :)
 
-__UPDATE__: My user got banned API_BANNED
 
-![alt text](https://github.com/shayanb/RE-Plague/raw/master/img/verification_needed.jpg "verification")
+###Disclaimer
 
+This is for personal and research use only. No one likes spammers.
 
 
 [Plague]:http://plague.io/
