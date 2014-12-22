@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+from optparse import OptionParser
 
 
 token = 'TOKEN'
@@ -20,6 +21,32 @@ headers = { 'Host':'plague.io',
 
 
 
+
+def login(username,password):
+    url = "http://plague.io/api/auth/login/?email="+str(username)+"+&password="+password
+    r = requests.get(url, headers=headers)
+    #print r.json()
+    print "What you need"
+    print "-------------"
+    print "userid = " + str(r.json()["client"]["uid"])
+    print "token = " + r.json()["client"]["token"]
+    print ""
+    print "This is your plague"
+    print "-------------------"
+    print "id = " + str(r.json()["user"]["id"])
+    print "IP = " + str(r.json()["client"]["ipaddress"])
+    print "name = " + r.json()["user"]["name"]
+    print "bio = " + str(r.json()["user"]["bio"])
+    print "Can infect = " + str(r.json()["user"]["can_infect"])
+    print "Karma = " + str(r.json()["user"]["karma"])
+    print ""
+    print "is temporary = " + str(r.json()["user"]["is_temporary"])
+    print "is email verified = " + str(r.json()["user"]["is_email_verified"])
+    print "is verified = " + str(r.json()["user"]["is_verified"])
+
+
+
+
 def vote_repost(post_id):
     '''
     Vote up post_id
@@ -33,6 +60,16 @@ def vote_repost(post_id):
     r = requests.post(url, data=payload, headers=headers)
     print str(post_id)+ " " + r.text
 
+
+def vote_repost_range(lrange=1000,rrange=2000):
+    '''
+    repost all the plagues between lrange and rrange
+    '''
+    if lrange < rrange:
+        for i in xrange(lrange,rrange):
+            vote_repost(i)
+    else:
+        print "Left range must be smaller than Right range"
 
 
 def vote_skip(post_id):
@@ -73,6 +110,15 @@ def comment(post_id, text):
                         'uid':u_id}
     r = requests.post(url, data=comment_payload, headers=headers)
     print str(post_id) + " - "+ text + " - " + r.text
+
+
+def comment_range(text, lrange, rrange):
+    if lrange < rrange:
+        for i in xrange(lrange,rrange):
+            comment(str(i),text)
+    else:
+        print "Left range must be smaller than Right range"
+
 
 
 def photo_post(file,text):
@@ -131,3 +177,53 @@ def post_delete(post_id):
 
 
 #photo_post("./plague.jpg","I told you, Plague is contagious!")
+
+
+
+
+
+#Opt parser - not complete
+if __name__ == "__main__":
+    usage = "usage: %prog [options] arg1 arg2"
+    parser = OptionParser(usage=usage)
+    parser.add_option("-e", "--email",
+                        dest="username",
+                        help="'john@do.e' (must be used with -p)")
+    parser.add_option("-p", "--password",
+                        dest="password",
+                        help="password")
+    parser.add_option("-i", "--postid",
+                        dest="postid",
+                        help="Post_id")
+    # parser.add_option("-m", "--medialink",
+    #                     dest="media_link",
+    #                     help="media link URL (must be used with -mp)")
+    # parser.add_option("-n", "--mediap",
+    #                     dest="media_link_preview",
+    #                     help="media link preview URL")
+    parser.add_option("-t", "--text",
+                        dest="text",
+                        help="text that you want to send")
+
+    parser.add_option("-u", "--userid",
+                        dest="userid",
+                        help="Plague user_id")
+    parser.add_option("-T", "--token",
+                        dest="token",
+                        help="Plague Token")
+
+(options, args) = parser.parse_args()
+
+
+
+
+if options.username and options.password:
+        login(options.username,options.password)
+
+if options.userid:
+    u_id = options.userid
+if options.token:
+    token = options.token
+
+if options.text:
+    send_text(options.text)
