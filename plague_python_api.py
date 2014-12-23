@@ -11,7 +11,7 @@ from optparse import OptionParser
 token = 'TOKEN'
 u_id = 'USERID'
 # change the longiture and latitude to your choosing
-lon = '90.0000'
+lon = '90.0000' #northpole
 lat = '0.0000'
 
 
@@ -188,7 +188,7 @@ def post_delete(post_id):
 
 #Opt parser - not complete
 if __name__ == "__main__":
-    usage = "usage: %prog [options] arg1 arg2"
+    usage = "usage: %prog -h to see available options"
     parser = OptionParser(usage=usage)
     parser.add_option("-e", "--email",
                         dest="username",
@@ -219,10 +219,18 @@ if __name__ == "__main__":
                         dest="comment",
                         help="comment on post_id")
 
+    parser.add_option("-V", "--longitude",
+                        dest="lon",
+                        help="Longitude '0.0000'")
+    parser.add_option("-H", "--latitude",
+                        dest="lat",
+                        help="Latitude e.g '90.0000'")
+
 (options, args) = parser.parse_args()
 
 
-
+if len(args) < 2:
+    parser.error('Missing arguments!')
 
 if options.username and options.password:
         login(options.username,options.password)
@@ -231,6 +239,10 @@ if options.userid:
     u_id = options.userid
 if options.token:
     token = options.token
+
+if options.lon and options.lat:
+    lon = options.lon
+    lat = options.lat
 
 if options.text:
     send_text(options.text)
