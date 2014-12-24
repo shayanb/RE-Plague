@@ -48,7 +48,36 @@ def login(username,password):
     print "is email verified = " + str(r.json()["user"]["is_email_verified"])
     print "is verified = " + str(r.json()["user"]["is_verified"])
 
-
+def signup(name, email, password, coords):
+	'''
+	Create new account
+	coords is dictionary with lat/lng
+	'''
+	url = "http://plague.io/api/users/"
+	payload = { 'name':name,
+				'email':email,
+				'password':password,
+				'latitude':str(coords["lat"]),
+				'longitude':str(coords["lng"])}
+	r = requests.post(url, data=payload, headers=headers)
+	
+	print "What you need"
+    print "-------------"
+    print "userid = " + str(r.json()["client"]["uid"])
+    print "token = " + r.json()["client"]["token"]
+    print ""
+    print "This is your plague"
+    print "-------------------"
+    print "id = " + str(r.json()["user"]["id"])
+    print "IP = " + str(r.json()["client"]["ipaddress"])
+    print "name = " + r.json()["user"]["name"]
+    print "bio = " + str(r.json()["user"]["bio"])
+    print "Can infect = " + str(r.json()["user"]["can_infect"])
+    print "Karma = " + str(r.json()["user"]["karma"])
+    print ""
+    print "is temporary = " + str(r.json()["user"]["is_temporary"])
+    print "is email verified = " + str(r.json()["user"]["is_email_verified"])
+    print "is verified = " + str(r.json()["user"]["is_verified"])
 
 
 def vote_repost(post_id):
@@ -63,6 +92,16 @@ def vote_repost(post_id):
                 'uid':u_id}
     r = requests.post(url, data=payload, headers=headers)
     print str(post_id)+ " " + r.text
+	
+def get_posts(uid, token):
+	url = "http://plague.io/api/posts/?uid="+uid+"+&token="+token
+	r = requests.get(url, headers=headers)
+	return r.text
+	
+def get_infections_nearby(uid, token):
+	url = "http://plague.io/api/infections/?uid="+uid+"+&token="+token
+	r = requests.get(url, headers=headers)
+	print r.text
 
 
 def vote_repost_range(lrange=1000,rrange=2000):
