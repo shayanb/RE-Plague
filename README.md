@@ -17,6 +17,9 @@ Available Functions:
 * photo_post(file,text) #Not yet working
 * post_link(media_link, media_link_preview, text)
 * post_delete(post_id)
+* signup(name,email,password,lat,lon)
+* get_posts(uid,token)
+* get_infections_nearby(uid, token)
 
 to get UserId and Token run this:
 > python ./plague_python_api.py -e 'name@mailinator.com' -p 'PAs$w0R1)'
