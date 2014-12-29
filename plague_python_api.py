@@ -10,9 +10,14 @@ from optparse import OptionParser
 # You can hard code these here
 token = 'TOKEN'
 u_id = 'USERID'
-# change the longiture and latitude to your choosing
-lon = '90.0000' #northpole
+
+#	Precede South latitudes and West longitudes with a minus sign.
+#	Latitudes range from -90 to 90.
+#	Longitudes range from -180 to 180
 lat = '0.0000'
+lon = '90.0000' #northpole
+
+meta = '{"administrativeArea":"Quebec","country":"Canada","locality":"Montreal"}'
 
 
 headers = { 'Host':'plague.io',
@@ -33,23 +38,28 @@ def login(username,password):
 	url = "http://plague.io/api/auth/login/?email="+str(username)+"+&password="+password
 	r = requests.get(url, headers=headers)
 	#print r.json()
-	print "What you need"
-	print "-------------"
-	print "userid = " + str(r.json()["client"]["uid"])
-	print "token = " + r.json()["client"]["token"]
-	print ""
-	print "This is your plague"
-	print "-------------------"
-	print "id = " + str(r.json()["user"]["id"])
-	print "IP = " + str(r.json()["client"]["ipaddress"])
-	print "name = " + r.json()["user"]["name"]
-	print "bio = " + str(r.json()["user"]["bio"])
-	print "Can infect = " + str(r.json()["user"]["can_infect"])
-	print "Karma = " + str(r.json()["user"]["karma"])
-	print ""
-	print "is temporary = " + str(r.json()["user"]["is_temporary"])
-	print "is email verified = " + str(r.json()["user"]["is_email_verified"])
-	print "is verified = " + str(r.json()["user"]["is_verified"])
+	if "error" in r.json():
+		print "Login Error"
+		print "Error Message: " + r.json()['error']['info']
+		print "API response: " + r.json()['error']['code']
+	else:
+		print "What you need"
+		print "-------------"
+		print "userid = " + str(r.json()["client"]["uid"])
+		print "token = " + r.json()["client"]["token"]
+		print ""
+		print "This is your plague"
+		print "-------------------"
+		print "id = " + str(r.json()["user"]["id"])
+		print "IP = " + str(r.json()["client"]["ipaddress"])
+		print "name = " + r.json()["user"]["name"]
+		print "bio = " + str(r.json()["user"]["bio"])
+		print "Can infect = " + str(r.json()["user"]["can_infect"])
+		print "Karma = " + str(r.json()["user"]["karma"])
+		print ""
+		print "is temporary = " + str(r.json()["user"]["is_temporary"])
+		print "is email verified = " + str(r.json()["user"]["is_email_verified"])
+		print "is verified = " + str(r.json()["user"]["is_verified"])
 
 
 def signup(name, email, password, lat, lon):
@@ -148,7 +158,7 @@ def send_text(text):
 	send_text_payload = {
 			'latitude':lat,
 			'longitude':lon,
-			'meta':'{"administrativeArea":"Quebec","country":"Canada","locality":"Montreal"}',
+			'meta':meta,
 			'text':text,
 			'token':token,
 			'uid':u_id}
@@ -213,7 +223,7 @@ def post_link(media_link, media_link_preview, text):
 					'longitude':lon,
 					'media':str(media_link),
 					'media_preview':str(media_link_preview),
-					'meta':'{"administrativeArea":"Quebec","country":"Canada","locality":"Montreal"}',
+					'meta':meta,
 					'text':text,
 					'token':token,
 					'uid':u_id}
