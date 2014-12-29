@@ -286,9 +286,6 @@ if __name__ == "__main__":
 (options, args) = parser.parse_args()
 
 
-if len(args) < 2:
-	parser.error('Missing arguments!')
-
 if options.username and options.password:
 		login(options.username,options.password)
 
